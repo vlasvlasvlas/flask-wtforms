@@ -11,6 +11,7 @@ from werkzeug.utils import secure_filename
 
 # Note: that when using Flask-WTF we need to import the Form Class that we created
 # in forms.py
+# import forms:
 from .forms import Formulario1
 
 
@@ -18,6 +19,7 @@ from .forms import Formulario1
 # Routing for your application.
 ###
 
+# home 
 @app.route('/')
 def home():
     """Render website's home page."""
@@ -26,10 +28,13 @@ def home():
 @app.route('/wtform', methods=['GET', 'POST'])
 
 def wtform():
+    """Render WTForm example, main form"""
+
     
     # instancia Formulario 1
-    myform = Formulario1()
+    myform = Formulario1() #form instance
 
+    # if POST:
     if request.method == 'POST':
         print("--------> POST IN ")
         print("---> UPLOAD FOLDER "+app.config['UPLOAD_FOLDER'])
@@ -42,19 +47,30 @@ def wtform():
             
             # attachment
             document = myform.document.data # we could also use request.files['document']
-            
+
+            # get filename from document
             filename = secure_filename(document.filename)
+
+            # save document in upload folder
             document.save(os.path.join(
                 app.config['UPLOAD_FOLDER'], filename
             ))
-
+            
+            # setup success message
             flash('You have successfully filled out the form', 'success')
             
-            return render_template('result.html', firstname=firstname, lastname=lastname, email=email,filename=filename)
+            return render_template('result.html', 
+                                   firstname=firstname, 
+                                   lastname=lastname, 
+                                   email=email,
+                                   filename=filename
+                                   )
 
         flash_errors(myform)
-        
-    return render_template('wtform.html', form=myform)
+
+    # if GET
+    if request.method == 'GET':           
+        return render_template('wtform.html', form=myform)
 
 
 
@@ -62,6 +78,7 @@ def wtform():
 # for files that are not in the "static" folder
 @app.route("/uploads/<filename>")
 def get_uploaded_file(filename):
+    """ upload filenema"""
     root_dir = os.getcwd()
 
     return send_from_directory(os.path.join(root_dir, app.config['UPLOAD_FOLDER']), filename)
@@ -70,7 +87,7 @@ def get_uploaded_file(filename):
 # The functions below should be applicable to all Flask apps.
 ###
 
-# Flash errors from the form if validation fails
+# Flash errors from the form if any validation fails
 def flash_errors(form):
     for field, errors in form.errors.items():
         for error in errors:
@@ -80,6 +97,7 @@ def flash_errors(form):
             ), 'danger')
 
 
+# optional: show txt file
 # show attachment, must be valid with default app upload extensions
 @app.route('/<file_name>.txt')
 def send_text_file(file_name):
@@ -88,6 +106,7 @@ def send_text_file(file_name):
     return app.send_static_file(file_dot_text)
 
 
+# add to headers
 @app.after_request
 def add_header(response):
     """
@@ -99,6 +118,7 @@ def add_header(response):
     return response
 
 
+# handle error 404
 @app.errorhandler(404)
 def page_not_found(error):
     """Custom 404 page."""
