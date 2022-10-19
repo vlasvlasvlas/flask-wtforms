@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 
 # Note: that when using Flask-WTF we need to import the Form Class that we created
 # in forms.py
-from .forms import MyForm, DocumentForm
+from .forms import Formulario1
 
 
 ###
@@ -23,59 +23,40 @@ def home():
     """Render website's home page."""
     return render_template('home.html')
 
-
-@app.route('/basic-form', methods=['GET', 'POST'])
-def basic_form():
-    if request.method == 'POST':
-        firstname = request.form['firstname']
-        lastname = request.form['lastname']
-        email = request.form['email']
-
-        return render_template('result.html',
-                               firstname=firstname,
-                               lastname=lastname,
-                               email=email)
-
-    return render_template('form.html')
-
-
 @app.route('/wtform', methods=['GET', 'POST'])
+
 def wtform():
-    myform = MyForm()
+    
+    # instancia Formulario 1
+    myform = Formulario1()
 
     if request.method == 'POST':
+        print("--------> POST IN ")
+        print("---> UPLOAD FOLDER "+app.config['UPLOAD_FOLDER'])
         if myform.validate_on_submit():
             # Note the difference when retrieving form data using Flask-WTF
             # Here we use myform.firstname.data instead of request.form['firstname']
             firstname = myform.firstname.data
             lastname = myform.lastname.data
             email = myform.email.data
+            
+            # attachment
+            document = myform.document.data # we could also use request.files['document']
+            
+            filename = secure_filename(document.filename)
+            document.save(os.path.join(
+                app.config['UPLOAD_FOLDER'], filename
+            ))
 
             flash('You have successfully filled out the form', 'success')
-            return render_template('result.html', firstname=firstname, lastname=lastname, email=email)
+            
+            return render_template('result.html', firstname=firstname, lastname=lastname, email=email,filename=filename)
 
         flash_errors(myform)
+        
     return render_template('wtform.html', form=myform)
 
 
-@app.route('/document-upload', methods=['GET', 'POST'])
-def document_upload():
-    documentform = DocumentForm()
-
-    if request.method == 'POST' and documentform.validate_on_submit():
-
-        document = documentform.document.data # we could also use request.files['document']
-        description = documentform.description.data
-
-        filename = secure_filename(document.filename)
-        document.save(os.path.join(
-            app.config['UPLOAD_FOLDER'], filename
-        ))
-
-        return render_template('display_document.html', filename=filename, description=description)
-
-    flash_errors(documentform)
-    return render_template('document_upload.html', form=documentform)
 
 # Example route using send_from_directory
 # for files that are not in the "static" folder
@@ -98,6 +79,8 @@ def flash_errors(form):
                 error
             ), 'danger')
 
+
+# show attachment, must be valid with default app upload extensions
 @app.route('/<file_name>.txt')
 def send_text_file(file_name):
     """Send your static text file."""
@@ -120,7 +103,3 @@ def add_header(response):
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
-
-
-if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port="8080")
