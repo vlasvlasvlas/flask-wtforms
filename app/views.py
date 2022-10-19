@@ -38,12 +38,15 @@ def wtform():
     if request.method == 'POST':
         print("--------> POST IN ")
         print("---> UPLOAD FOLDER "+app.config['UPLOAD_FOLDER'])
+        
         if myform.validate_on_submit():
             # Note the difference when retrieving form data using Flask-WTF
             # Here we use myform.firstname.data instead of request.form['firstname']
             firstname = myform.firstname.data
             lastname = myform.lastname.data
             email = myform.email.data
+            
+            print("-------> TEST FIRSTNAME:",firstname)
             
             # attachment
             document = myform.document.data # we could also use request.files['document']

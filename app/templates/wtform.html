@@ -2,29 +2,73 @@
 
 {% block main %}
     <h2>WTForms in Flask</h2>
-    <p>Here we are using the Flask-WTF library to create and process a form. Flask-WTF also comes with CSRF protection and validation classes.</p>       
-    <form method="post" action="{{ url_for('wtform') }}" enctype="multipart/form-data">
+    <p>Here we are using the Flask-WTF library to create and process a form. Flask-WTF also comes with CSRF protection and validation classes.</p>
+
+    <form id="formulario" method="post" action="{{ url_for('wtform') }}" enctype="multipart/form-data">
+
+
+
         {% include 'flash_messages.html' %}
         {{ form.csrf_token }}
 
-        <div class="form-group">
-            {{ form.firstname.label }} 
-            {{ form.firstname(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.lastname.label }} 
-            {{ form.lastname(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.email.label }} 
-            {{ form.email(class="form-control", placeholder="jdoe@example.com") }}
+        
+
+
+
+
+        
+
+
+        <!-- new -->
+        <!-- One "tab" for each step in the form: -->
+
+        <div class="tab">
+            <h3>Tab 1 data:</h3>
+            <p>
+
+            <div class="form-group">
+                {{ form.firstname.label }} 
+                {{ form.firstname(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.lastname.label }} 
+                {{ form.lastname(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.email.label }} 
+                {{ form.email(class="form-control", placeholder="jdoe@example.com") }}
+            </div>     
+            
+        </p>
+
+        </div> <!-- tab 1 end -->
+
+
+        <div class="tab">tab 2 data:
+
+            <div class="form-group">
+                {{ form.document.label }}
+                {{ form.document(class="form-control") }}
+            </div>            
+
+        </div> <!-- tab 2 end -->    
+
+        <div style="overflow:auto;">
+            <div style="float:right;">
+              <button class="btn btn-info" type="button" id="prevBtn" onclick="nextPrev(-1)">Anterior</button>
+              <button class="btn btn-info" type="button" id="nextBtn" onclick="nextPrev(1)">Siguiente</button>
+            </div>
         </div>
 
-        <div class="form-group">
-            {{ form.document.label }}
-            {{ form.document(class="form-control") }}
+        <!-- Circles which indicates the steps of the form: -->
+        <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
         </div>
         
-    <button type="submit" class="btn btn-primary">Submit</button>
+  
+
+
+
 </form>
 {% endblock %}
