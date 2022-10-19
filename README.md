@@ -10,6 +10,7 @@
 - activar venv
 - instalar dependencias del requirements.txt
 - levantar archivo run.py
+- ingresar con browser a localhost:8080
 
 # Notitas
 - scripting formateado con black
