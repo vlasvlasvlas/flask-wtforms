@@ -1,3 +1,7 @@
+# Flask & WTForms
+
+![imagen](https://user-images.githubusercontent.com/4071796/196821475-5727f138-6ba4-4ec6-bac2-463739386b2b.png)
+
 # Qué es esto
 - Demo de carga de datos por medio de un formulario web con Flask y WTForms, incluye strings, documentos adjuntos y que sea multi-step.
 
