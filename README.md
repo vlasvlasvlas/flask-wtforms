@@ -1,12 +1,12 @@
 # Que es esto
-- Es una demo de carga de datos por medio de un formulario con Flask y WTForms, incluye strings y documentos adjuntos
+- Demo de carga de datos por medio de un formulario web con Flask y WTForms, incluye strings, documentos adjuntos y que sea multi-step.
 
 # Para que
-- Para probar el uso de un back flask que permita wtforms y adjuntos.
+- Para probar el uso de un back flask que permita wtforms con inputs de archivos adjuntos, y sea multi-step lado front.
 
 # Requisitos
-- Descargar o clonar repo
+- Descargar o clonar repositorio en localhost
 - crear ambiente virtual venv
 - activar venv
-- instalar dependencias en requirements.txt
+- instalar dependencias del requirements.txt
 - levantar archivo run.py
