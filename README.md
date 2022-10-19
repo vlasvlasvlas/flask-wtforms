@@ -10,3 +10,6 @@
 - activar venv
 - instalar dependencias del requirements.txt
 - levantar archivo run.py
+
+# Nota
+- scripting formateado con black
