@@ -1,7 +1,7 @@
-# Que es esto
+# Qué es esto
 - Demo de carga de datos por medio de un formulario web con Flask y WTForms, incluye strings, documentos adjuntos y que sea multi-step.
 
-# Para que
+# Para qué
 - Para probar el uso de un back flask que permita wtforms con inputs de archivos adjuntos, y sea multi-step lado front.
 
 # Requisitos
@@ -11,5 +11,5 @@
 - instalar dependencias del requirements.txt
 - levantar archivo run.py
 
-# Nota
+# Notitas
 - scripting formateado con black
